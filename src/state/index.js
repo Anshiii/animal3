@@ -1,22 +1,37 @@
 import coordinateCalc from '../util/coordinateCalc';
 import typeCalc from '../util/typeCalc';
+import reducer from './reducer';
 
-const currentBlock = { x: 0, y: 0 };
+const currentBlock = null;
 const isAnimate = false;
-
 const typeList = [];
 
-for (let x = 1; x < 6; x += 1) {
+
+for (let x = 0; x < 5; x += 1) {
   typeList[x] = [];
-  for (let y = 1; y < 6; y += 1) {
-    typeList[x][y] = { grid: [x, y], type: typeCalc(), coor: coordinateCalc({ x, y }) };
+  for (let y = 0; y < 5; y += 1) {
+    typeList[x][y] = {
+      grid: [x, y],
+      type: typeCalc(),
+      coor: coordinateCalc({ x, y })
+    };
   }
 }
 
-const state = {
+let state = {
   typeList,
   currentBlock,
-  isAnimate,
+  isAnimate
 };
 
-export default { getState: () => state,dispatch:()=>{} };
+export default {
+  getState: () => state,
+  dispatch: action => {
+    let nextState = reducer(state, action);
+    console.log(nextState);
+
+    if (state !== nextState) {
+      state = nextState;
+    }
+  }
+};
